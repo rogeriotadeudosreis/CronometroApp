@@ -3,22 +3,28 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 // aplicação principal
 export default function Cronometro2() {
-  const [counter, setCounter] = useState('00:00:00');
+  const [startStop, setStartStop] = useState('Start');
+  const [counter, setCounter] = useState(0);
   const [cron, setCron] = useState(null);
 
-  var horas = 0;
-  var minutos = 0;
-  var segundos = 0;
-
-  var tempo = 1000; //Configurando 01 segundo em milésimos
+  var tempo = 100; //Configurando 01 segundo em milésimos
 
   //   Função para start do cronômetro
   function startStopCron() {
-    setCron(setInterval(() => {timer();}, tempo))}
+    if (cron === null) {
+      setStartStop('Pause');
+      let cont = counter;
 
-  //   Função para pause do cronômetro
-  function pause() {
-    clearInterval(cron);
+      setCron(
+        setInterval(() => {
+          setCounter((cont += 0.1));
+        }, tempo),
+      );
+    } else {
+      clearInterval(cron);
+      setStartStop('Start');
+      setCron(null);
+    }
   }
 
   //Para o temporizador e limpa as variáveis
@@ -27,59 +33,23 @@ export default function Cronometro2() {
     Ele desativa a função e não executa a função definida pelo temporizador.
      */
     clearInterval(cron);
-    horas = 0;
-    minutos = 0;
-    segundos = 0;
-
-    setCounter('00:00:00');
+    setStartStop('Start');
+    setCounter(0);
+    setCron(null);
   }
 
   //   Função principal do cronômetro, faz a contagem e exibição
-  function timer() {
-    segundos++; //Incrementa +1 na variável segundos
-
-    if (segundos == 59) {
-      //Verifica se deu 59 segundos
-      segundos = 0; //Volta os segundos para 0
-      minutos++; //Adiciona +1 na variável minutos
-
-      if (minutos == 59) {
-        //Verifica se deu 59 minutos
-        minutos = 0; //Volta os minutos para 0
-        horas++; //Adiciona +1 na variável hora
-      }
-    }
-
-    //Cria uma variável com o valor tratado HH:minutos:segundos
-    var format =
-      (horas < 10 ? '0' + horas : horas) +
-      ':' +
-      (minutos < 10 ? '0' + minutos : minutos) +
-      ':' +
-      (segundos < 10 ? '0' + segundos : segundos);
-
-    //Insere o valor tratado no elemento counter
-    // document.getElementsByName('counter').innerText = format;
-    setCounter(format);
-
-    //Retorna o valor tratado
-    return format;
-  }
 
   return (
     <View style={styles.container}>
-      <View>
+      <View style={styles.containerTituloAndCounter}>
         <Text style={styles.titulo}>Cronômetro</Text>
-        <Text style={styles.counterTexto}>{counter}</Text>
+        <Text style={styles.counterTexto}>{`${counter.toFixed(1)}`}</Text>
       </View>
 
       <View style={styles.containerButton}>
         <TouchableOpacity style={styles.button} onPress={() => startStopCron()}>
-          <Text style={styles.texto}>Start</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.button} onPress={() => pause()}>
-          <Text style={styles.texto}>Pause</Text>
+          <Text style={styles.texto}>{startStop}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.button} onPress={() => stop()}>
@@ -122,5 +92,8 @@ const styles = StyleSheet.create({
   },
   containerButton: {
     flexDirection: 'row',
+  },
+  containerTituloAndCounter: {
+    alignItems: 'center',
   },
 });
