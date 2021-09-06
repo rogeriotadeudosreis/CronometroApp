@@ -1,24 +1,13 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
+import styles_footer from '../footer/styles_footer';
 
 export default function Footer() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.texto}>
+    <View style={styles_footer.container}>
+      <Text style={styles_footer.texto}>
         ADS-5 - Desenvolvimento de Sistemas para Mobile
       </Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#331DF4',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  texto: {
-    fontSize: 15,
-    fontWeight: 'bold',
-  },
-});

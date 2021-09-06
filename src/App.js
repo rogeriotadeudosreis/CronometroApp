@@ -1,7 +1,6 @@
 import React from 'react';
 import {StatusBar, StyleSheet, Text, View} from 'react-native';
 import Cronometro from './components/cronometro';
-import Cronometro2 from './components/cronometro/index2';
 import Footer from './components/footer';
 
 export default function App() {
@@ -13,7 +12,7 @@ export default function App() {
           barStyle="dark-content"
           backgroundColor="#331DF4"
         />
-        <Cronometro2 />
+        <Cronometro />
         <Footer />
       </View>
     </>
